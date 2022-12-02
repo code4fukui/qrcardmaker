@@ -1,0 +1,64 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
+<title>QR名刺メーカー</title>
+</head><body>
+<h1>QR名刺メーカー</h1>
+
+<main>
+<input id=inp_name placeholder="名前">
+<input id=inp_org placeholder="所属">
+<input id=inp_mail placeholder="メールアドレス">
+<input id=inp_url placeholder="URL">
+<input id=inp_adr placeholder="住所">
+<input id=inp_tel placeholder="電話番号">
+<button id=btn>QR生成</button>
+<div id=qr></div>
+</main>
+
+<script type="module">
+import { QRCode } from "https://js.sabae.cc/QRCode.js";
+
+const makeVCARD = (src) => {
+  const ss = [];
+  ss.push("BEGIN:VCARD");
+  ss.push("VERSION:3.0");
+  ss.push("N:" + src.name);
+  ss.push("ORG:" + src.org);
+  ss.push("MAIL:" + src.mail);
+  ss.push("URL:" + src.url);
+  ss.push("ADR:" + src.adr);
+  ss.push("TEL:" + src.tel);
+  ss.push("END:VCARD");
+  return ss.join("\n");
+};
+
+btn.onclick = () => {
+  const names = ["name", "org", "mail", "url", "adr", "tel"];
+  const src = {};
+  names.forEach(n => src[n] = document.getElementById("inp_" + n).value);
+  const vcard = makeVCARD(src);
+  const qrcode = new QRCode(vcard);
+  qr.innerHTML = "";
+  qr.appendChild(qrcode);
+};
+
+</script>
+
+<style>
+body {
+  font-family: sans-serif;
+  text-align: center;
+  box-sizing: border-box;
+}
+main {
+  margin: 2em 0;
+}
+main > * {
+  display: block;
+  margin: .3em auto;
+  padding: .2em;
+  font-size: 120%;
+}
+#qr {
+  margin: 1em 0;
+}
+</style>
