@@ -26,14 +26,22 @@ const makeVCARD = (src) => {
   const ss = [];
   ss.push("BEGIN:VCARD");
   ss.push("VERSION:3.0");
-  ss.push("N:" + src.name);
-  ss.push("X-PHONETIC-LAST-NAME:" + src.phonetic_last);
-  ss.push("X-PHONETIC-FIRST-NAME:" + src.phonetic_first);
-  ss.push("ORG:" + src.org);
-  ss.push("EMAIL:" + src.mail);
-  ss.push("URL:" + src.url);
-  ss.push("ADR:" + src.adr);
-  ss.push("TEL:" + src.tel);
+  const map = {
+    name: "N",
+    phonetic_last: "X-PHONETIC-LAST-NAME",
+    phonetic_first: "X-PHONETIC-FIRST-NAME",
+    org: "ORG",
+    mail: "EMAIL",
+    url: "URL",
+    adr: "ADR",
+    tel: "TEL",
+  };
+  for (const name in map) {
+    const v = src[name];
+    if (v) {
+      ss.push(map[name] + ":" + v);
+    }
+  }
   ss.push("END:VCARD");
   return ss.join("\n");
 };
