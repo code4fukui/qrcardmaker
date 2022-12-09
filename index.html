@@ -5,6 +5,8 @@
 
 <main>
 <input id=inp_name placeholder="名前">
+<input id=inp_phonetic_last placeholder="姓(フリガナ)">
+<input id=inp_phonetic_first placeholder="名(フリガナ)">
 <input id=inp_org placeholder="所属">
 <input id=inp_mail placeholder="メールアドレス">
 <input id=inp_url placeholder="URL">
@@ -25,8 +27,10 @@ const makeVCARD = (src) => {
   ss.push("BEGIN:VCARD");
   ss.push("VERSION:3.0");
   ss.push("N:" + src.name);
+  ss.push("X-PHONETIC-LAST-NAME:" + src.phonetic_last);
+  ss.push("X-PHONETIC-FIRST-NAME:" + src.phonetic_first);
   ss.push("ORG:" + src.org);
-  ss.push("MAIL:" + src.mail);
+  ss.push("EMAIL:" + src.mail);
   ss.push("URL:" + src.url);
   ss.push("ADR:" + src.adr);
   ss.push("TEL:" + src.tel);
@@ -35,7 +39,7 @@ const makeVCARD = (src) => {
 };
 
 btn.onclick = () => {
-  const names = ["name", "org", "mail", "url", "adr", "tel"];
+  const names = ["name", "phonetic_last", "phonetic_first", "org", "mail", "url", "adr", "tel"];
   const src = {};
   names.forEach(n => src[n] = document.getElementById("inp_" + n).value);
   const vcard = makeVCARD(src);
